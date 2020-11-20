@@ -1,7 +1,7 @@
-let money = 1000;
-let income = 1000;
-let addExpenses = 500;
-let deposit = 100;
+let money = 2000;
+let income = 2000;
+let addExpenses = 600;
+let deposit = 200;
 let mission = 5000;
 let period = 6;
 
