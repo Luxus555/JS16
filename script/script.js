@@ -16,3 +16,13 @@ console.log(addExpenses.split(" "));
 
 let budgetDay = money / 30;
 console.log(budgetDay);
+
+let num = 266219,
+  result = [],
+  newNumber = num.toString();
+
+for (let i = 0, j = newNumber.length; i < j; i += 1) {
+  result.push(+newNumber[i]);
+}
+
+console.log(result);
