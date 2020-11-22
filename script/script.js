@@ -25,4 +25,14 @@ for (let i = 0, j = newNumber.length; i < j; i += 1) {
   result.push(+newNumber[i]);
 }
 
-console.log(result);
+let proizvedenie = result.reduce((a, b) => a * b);
+
+console.log(proizvedenie);
+
+let stepen = proizvedenie ** 3;
+
+console.log(stepen);
+
+let Itogo = parseInt(stepen.toString().slice(0, 2));
+
+alert(Itogo);
