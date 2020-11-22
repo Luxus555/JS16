@@ -1,8 +1,8 @@
 let money = 2000;
-let income = 2000;
-let addExpenses = 600;
-let deposit = 200;
-let mission = 5000;
+let income = "Frilance";
+let addExpenses = "Internet, House, Electricity";
+let deposit = true;
+let mission = 10000;
 let period = 12;
 
 alert("Любой текст!");
