@@ -33,9 +33,18 @@ showTypeOf(income);
 showTypeOf(deposit);
 console.log(addExpenses.length);
 
-function getExpensesMonth() {
-  return amount1 + amount2;
-}
+let getExpensesMonth = function () {
+  let sum = 0;
+
+  for (let i = 0; i < 2; i++) {
+    sum += +prompt("Во сколько это обойдется?");
+  }
+  console.log(sum);
+  return sum;
+};
+
+let expensesAmount = getExpensesMonth();
+
 console.log("Расходы за месяц: " + getExpensesMonth());
 
 let getAccumulatedMonth = function () {
