@@ -34,13 +34,22 @@ showTypeOf(deposit);
 
 console.log(addExpenses.toLowerCase().split(","));
 
-function getExpensesMonth(amount1, amount2) {
-  return amount1 + amount2;
-}
-console.log("Расходы за месяц: " + getExpensesMonth());
+let getExpensesMonth = function () {
+  let sum = 0;
+
+  for (let i = 0; i < 2; i++) {
+    sum += +prompt("Во сколько это обойдется?");
+  }
+  console.log(sum);
+  return sum;
+};
+
+let expensesAmount = getExpensesMonth();
+
+console.log("Расходы за месяц: " + expensesAmount);
 
 let getAccumulatedMonth = function () {
-  return money - getExpensesMonth();
+  return money - expensesAmount;
 };
 
 let accumulatedMonth = getAccumulatedMonth();
