@@ -1,5 +1,7 @@
-let isNumber = function (n) {
-  return !isNaN(parseFloat(n)) && isFinite(n);
+"use strict";
+
+const isNumber = function (n) {
+  return !isNaN(parseFloat(n)) && isFinite(parseFloat(n));
 };
 
 let money = 0,
@@ -16,8 +18,7 @@ let money = 0,
   budgetDay = 0;
 
 addExpenses = prompt(
-  "Перечислите возможные расходы за рассчитываемый период через запятую",
-  "Интернет, Бензин, Коммуналка"
+  "Перечислите возможные расходы за рассчитываемый период через запятую"
 );
 deposit = confirm("Есть ли у вас депозит в банке?", false);
 
@@ -31,11 +32,9 @@ let showTypeOf = function (item) {
 };
 
 let start = function () {
-  money = prompt("Ваш месячный доход?");
-
-  while (!isNumber(money)) {
+  do {
     money = prompt("Ваш месячный доход?");
-  }
+  } while (!isNumber(money));
 };
 
 start();
@@ -43,7 +42,7 @@ start();
 showTypeOf(money);
 showTypeOf(income);
 showTypeOf(deposit);
-console.log(addExpenses.length);
+//console.log(addExpenses.length);
 
 let expenses = [];
 
@@ -51,12 +50,14 @@ console.log(addExpenses.toLowerCase().split(" "));
 
 let getExpensesMonth = function () {
   let sum = 0;
+  let num = 0;
 
   for (let i = 0; i < 2; i++) {
-    if (i === 0) {
-      expenses[i] = prompt("Введите обязательную статью расходов");
-    }
-    sum += +prompt("Во сколько это обойдется?");
+    expenses[i] = prompt("Введите обязательную статью расходов");
+    do {
+      num = prompt("Во сколько это обойдется?");
+    } while (!isNumber(num));
+    sum += parseFloat(num);
   }
   console.log(expenses);
   return sum;
@@ -64,10 +65,10 @@ let getExpensesMonth = function () {
 
 let expensesAmount = getExpensesMonth();
 
-console.log("Расходы за месяц: " + getExpensesMonth());
+console.log("Расходы за месяц: " + expensesAmount);
 
 let getAccumulatedMonth = function () {
-  return money - getExpensesMonth();
+  return money - expensesAmount;
 };
 
 let accumulatedMonth = getAccumulatedMonth();
@@ -99,6 +100,8 @@ let getStatusIncome = function () {
     console.log("У вас средний уровень дохода");
   } else if (budgetDay < 600 && budgetDay > 0) {
     console.log("К сожалению у вас уровень дохода ниже среднего");
-  } else console.log("Что то пошло не так");
+  } else {
+    return "Цель не будет достигнута";
+  }
 };
 getStatusIncome();
