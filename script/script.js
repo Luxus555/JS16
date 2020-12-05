@@ -6,7 +6,7 @@ const isNumber = function (n) {
 
 function empty(str) {
   if (
-    typeof str == "undefined" ||
+    typeof str === "undefined" ||
     !isNaN(str) ||
     str.length === 0 ||
     str === "" ||
@@ -25,6 +25,32 @@ let money,
     } while (!isNumber(money));
   };
 start();
+
+const calculate = document.getElementById("start"),
+  buttonPlus = document.getElementsByTagName("button"),
+  firstPlus = buttonPlus[0],
+  secondPlus = buttonPlus[1],
+  checkBox = document.querySelector("#deposit-check"),
+  incomeField = document.querySelectorAll(".income-items"),
+  monthIncome = document.getElementsByClassName("budget_month-value"),
+  dayBudget = document.getElementsByClassName("budget_day-value"),
+  monthExpenses = document.getElementsByClassName("expenses_month-value"),
+  possibleIncome = document.getElementsByClassName("additional_income-value"),
+  possibleExpenses = document.getElementsByClassName(
+    "additional_expenses-value"
+  ),
+  savings = document.getElementsByClassName("income_period-value"),
+  targetMonth = document.getElementsByClassName("target_month-value"),
+  incomeSum = document.getElementsByClassName("salary-amount"),
+  possibleIncomeField = document.getElementsByClassName("income-title"),
+  possibleIncomeSum = document.getElementsByClassName("income-amount"),
+  extraIncome1 = document.querySelectorAll(".additional_income-item"),
+  expensesField = document.getElementsByClassName("expenses-title"),
+  expensesSum = document.getElementsByClassName("expenses-amount"),
+  expensesName = document.getElementsByClassName("additional_expenses-item"),
+  targetSum = document.getElementsByClassName("target-amount"),
+  range = document.getElementsByClassName("period-select");
+console.log(range);
 
 let appData = {
   income: {},
