@@ -62,6 +62,21 @@ let appData = {
     } while (empty(addExpenses));
 
     appData.addExpenses = addExpenses.toLowerCase().split(", ");
+
+    const sentence = addExpenses.split(" ");
+    for (let i = 0; i < sentence.length; i++) {
+      sentence[i] = sentence[i][0].toUpperCase() + sentence[i].substr(1);
+    }
+    sentence.join(" ");
+    // sentence
+    //   .map((word) => {
+    //     return word[0].toUpperCase() + word.substring(1);
+    //   })
+    //   .join(", ");
+
+    console.log(sentence);
+
+    appData.addExpenses = addExpenses.toLowerCase().split(", ");
     appData.deposit = confirm("Есть ли у вас депозит в банке?");
     let key;
     for (let i = 0; i < 3; i++) {
