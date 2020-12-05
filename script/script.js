@@ -68,11 +68,6 @@ let appData = {
       sentence[i] = sentence[i][0].toUpperCase() + sentence[i].substr(1);
     }
     sentence.join(" ");
-    // sentence
-    //   .map((word) => {
-    //     return word[0].toUpperCase() + word.substring(1);
-    //   })
-    //   .join(", ");
 
     console.log(sentence);
 
