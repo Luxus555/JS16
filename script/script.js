@@ -18,15 +18,7 @@ function empty(str) {
   }
 }
 
-let money,
-  start = function () {
-    do {
-      money = prompt("Ваш месячный доход?", 50000);
-    } while (!isNumber(money));
-  };
-start();
-
-const calculate = document.getElementById("start"),
+let calculate = document.getElementById("start"),
   buttonPlus = document.getElementsByTagName("button"),
   firstPlus = buttonPlus[0],
   secondPlus = buttonPlus[1],
@@ -46,11 +38,10 @@ const calculate = document.getElementById("start"),
   possibleIncomeSum = document.getElementsByClassName("income-amount"),
   extraIncome1 = document.querySelectorAll(".additional_income-item"),
   expensesField = document.getElementsByClassName("expenses-title"),
-  expensesSum = document.getElementsByClassName("expenses-amount"),
+  expensesItems = document.querySelectorAll(".expenses-items"),
   expensesName = document.getElementsByClassName("additional_expenses-item"),
   targetSum = document.getElementsByClassName("target-amount"),
   range = document.getElementsByClassName("period-select");
-console.log(range);
 
 let appData = {
   income: {},
@@ -62,10 +53,33 @@ let appData = {
   moneyDeposit: 0,
   mission: 50000,
   period: 3,
-  budget: money,
+  budget: 0,
   budgetDay: 0,
   budgetMonth: 0,
   expensesMonth: 0,
+  start: function () {
+    if (incomeSum.value === "") {
+      alert('Ошибка, поле "Месячный доход" должно быть заполнено!');
+      return;
+    }
+    appData.budget = incomeSum.value;
+    console.log("incomeSum.value: ", incomeSum.value);
+
+    appData.getExpenses();
+  },
+  addExpensesBlock: function () {
+    let cloneExpensesItem = expensesItems[0].cloneNode(true);
+    expensesItems[0].parentNode.insertBefore(cloneExpensesItem, secondPlus);
+    expensesItems = document.querySelectorAll(".expenses-items");
+    if (expensesItems.length === 3) {
+      secondPlus.style.display = "none";
+    }
+  },
+  getExpenses: function () {
+    expensesItems.forEach(function (item) {
+      let itemExpenses = item.querySelector(".expenses-title");
+    });
+  },
   asking: function () {
     if (confirm("Есть ли у вас дополнительный источник заработка?")) {
       let itemIncome;
@@ -152,6 +166,10 @@ let appData = {
     return appData.budgetMonth * appData.period;
   },
 };
+
+calculate.addEventListener("click", appData.start());
+
+secondPlus.addEventListener("click", appData.addExpensesBlock);
 
 appData.asking();
 appData.getExpensesMonth();
