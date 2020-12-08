@@ -18,15 +18,7 @@ function empty(str) {
   }
 }
 
-let money,
-  start = function () {
-    do {
-      money = prompt("Ваш месячный доход?", 50000);
-    } while (!isNumber(money));
-  };
-start();
-
-const calculate = document.getElementById("start"),
+let calculate = document.getElementById("start"),
   buttonPlus = document.getElementsByTagName("button"),
   firstPlus = buttonPlus[0],
   secondPlus = buttonPlus[1],
@@ -41,15 +33,15 @@ const calculate = document.getElementById("start"),
   ),
   savings = document.getElementsByClassName("income_period-value"),
   targetMonth = document.getElementsByClassName("target_month-value"),
-  incomeSum = document.getElementsByClassName("salary-amount"),
-  possibleIncomeField = document.getElementsByClassName("income-title"),
-  possibleIncomeSum = document.getElementsByClassName("income-amount"),
+  incomeSum = document.querySelector(".salary-amount"),
+  possibleIncomeField = document.querySelector(".income-title"),
+  possibleIncomeSum = document.querySelector(".income-amount"),
   extraIncome1 = document.querySelectorAll(".additional_income-item"),
-  expensesField = document.getElementsByClassName("expenses-title"),
-  expensesSum = document.getElementsByClassName("expenses-amount"),
+  expensesField = document.querySelector(".expenses-title"),
+  expensesItems = document.querySelectorAll(".expenses-items"),
   expensesName = document.getElementsByClassName("additional_expenses-item"),
   targetSum = document.getElementsByClassName("target-amount"),
-  range = document.getElementsByClassName("period-select");
+  range = document.querySelector(".period-select");
 console.log(range);
 
 let appData = {
@@ -62,10 +54,46 @@ let appData = {
   moneyDeposit: 0,
   mission: 50000,
   period: 3,
-  budget: money,
+  budget: 0,
   budgetDay: 0,
   budgetMonth: 0,
   expensesMonth: 0,
+  start: function () {
+    if (incomeSum.value === "") {
+      alert('Ошибка, поле "Месячный доход" должно быть заполнено!');
+      return;
+    }
+    appData.budget = incomeSum.value;
+    appData.getExpenses();
+
+    appData.getExpensesMonth();
+    appData.getBudget();
+    appData.showResult();
+  },
+  showResult: function () {
+    monthIncome.value = appData.budgetMonth;
+    dayBudget.value = appData.budgetDay;
+    monthExpenses.value = appData.expensesMonth;
+  },
+  addExpensesBlock: function () {
+    console.log(expensesItems.parentNode);
+    let cloneExpensesItem = expensesItems[0].cloneNode(true);
+    expensesItems[0].parentNode.insertBefore(cloneExpensesItem, secondPlus);
+    expensesItems = document.querySelectorAll(".expenses-items");
+
+    if (expensesItems.length === 3) {
+      secondPlus.style.display = "none";
+    }
+  },
+  getExpenses: function () {
+    expensesItems.forEach(function (item) {
+      let itemExpenses = item.querySelector(".expenses-title").value;
+      let cashExpenses = item.querySelector(".expenses-amount").value;
+      if (itemExpenses !== "" && cashExpenses !== "") {
+        appData.expenses[itemExpenses] = cashExpenses;
+      }
+    });
+  },
   asking: function () {
     if (confirm("Есть ли у вас дополнительный источник заработка?")) {
       let itemIncome;
@@ -100,14 +128,6 @@ let appData = {
     appData.addExpenses = addExpenses.toLowerCase().split(", ");
     appData.deposit = confirm("Есть ли у вас депозит в банке?");
     let key;
-    for (let i = 0; i < 3; i++) {
-      do {
-        key = prompt("Введите обязательную статью расходов");
-      } while (empty(key));
-      do {
-        appData.expenses[key] = +prompt("Во сколько это обойдется?");
-      } while (!isNumber(appData.expenses[key]));
-    }
   },
   getExpensesMonth: function () {
     for (let key in appData.expenses) {
@@ -153,9 +173,10 @@ let appData = {
   },
 };
 
-appData.asking();
-appData.getExpensesMonth();
-appData.getBudget();
+calculate.addEventListener("click", appData.start);
+
+secondPlus.addEventListener("click", appData.addExpensesBlock);
+
 console.log("Расходы за месяц: ", appData.budgetMonth);
 appData.getTargetMonth();
 appData.getStatusIncome();
