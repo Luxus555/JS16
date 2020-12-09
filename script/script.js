@@ -23,7 +23,6 @@ let calculate = document.getElementById("start"),
   firstPlus = buttonPlus[0],
   secondPlus = buttonPlus[1],
   checkBox = document.querySelector("#deposit-check"),
-  incomeItems = document.querySelectorAll(".income-items"),
   monthIncome = document.getElementsByClassName("budget_month-value"),
   dayBudget = document.getElementsByClassName("budget_day-value"),
   monthExpenses = document.getElementsByClassName("expenses_month-value"),
@@ -34,14 +33,14 @@ let calculate = document.getElementById("start"),
   incomePeriodValue = document.getElementsByClassName("income_period-value"),
   targetMonth = document.getElementsByClassName("target_month-value"),
   incomeSum = document.querySelector(".salary-amount"),
-  possibleIncomeField = document.querySelector(".income-title"),
+  incomeTitle = document.querySelector(".income-title"),
   extraIncome = document.querySelectorAll(".additional_income-item"),
   expensesField = document.querySelector(".expenses-title"),
   expensesItems = document.querySelectorAll(".expenses-items"),
   expensesName = document.querySelector(".additional_expenses-item"),
   targetAmount = document.querySelector(".target-amount"),
   range = document.querySelector(".period-select"),
-  incomeItem = document.querySelectorAll(".income-items");
+  incomeItems = document.querySelectorAll(".income-items");
 
 let appData = {
   income: {},
@@ -88,6 +87,15 @@ let appData = {
 
     if (expensesItems.length === 3) {
       secondPlus.style.display = "none";
+    }
+  },
+  addIncomeBlock: function () {
+    let cloneIncomeItem = incomeItems[0].cloneNode(true);
+    incomeItems[0].parentNode.insertBefore(cloneIncomeItem, firstPlus);
+    incomeItems = document.querySelectorAll(".income-items");
+
+    if (incomeItems.length === 3) {
+      firstPlus.style.display = "none";
     }
   },
   getExpenses: function () {
@@ -182,6 +190,8 @@ let appData = {
 };
 
 calculate.addEventListener("click", appData.start);
+
+firstPlus.addEventListener("click", appData.addIncomeBlock);
 
 secondPlus.addEventListener("click", appData.addExpensesBlock);
 
