@@ -23,7 +23,7 @@ let calculate = document.getElementById("start"),
   firstPlus = buttonPlus[0],
   secondPlus = buttonPlus[1],
   checkBox = document.querySelector("#deposit-check"),
-  incomeField = document.querySelectorAll(".income-items"),
+  incomeItems = document.querySelectorAll(".income-items"),
   monthIncome = document.getElementsByClassName("budget_month-value"),
   dayBudget = document.getElementsByClassName("budget_day-value"),
   monthExpenses = document.getElementsByClassName("expenses_month-value"),
@@ -82,7 +82,6 @@ let appData = {
     incomePeriodValue[0].value = appData.calcPeriod();
   },
   addExpensesBlock: function () {
-    console.log(expensesItems.parentNode);
     let cloneExpensesItem = expensesItems[0].cloneNode(true);
     expensesItems[0].parentNode.insertBefore(cloneExpensesItem, secondPlus);
     expensesItems = document.querySelectorAll(".expenses-items");
@@ -101,23 +100,29 @@ let appData = {
     });
   },
   getIncome: function () {
-    if (confirm("Есть ли у вас дополнительный источник заработка?")) {
-      let itemIncome;
-      do {
-        itemIncome = prompt(
-          "Какой у вас есть дополнительный заработок?",
-          "Таксую"
-        );
-      } while (empty(itemIncome));
-      let cashIncome;
-      do {
-        cashIncome = prompt("Сколько в месяц вы на этом зарабатываете?", 10000);
-      } while (!isNumber(cashIncome));
-      appData.income[itemIncome] = cashIncome;
-    }
-    for (let key in appData.income) {
-      appData.incomeMonth += +appData.income[key];
-    }
+    incomeItems.forEach(function (item) {
+      let itemIncome = item.querySelector(".income-title").value;
+      let cashIncome = item.querySelector(".income-amount").value;
+      if (itemIncome !== "" && cashIncome !== "") {
+        appData.income[itemIncome] = cashIncome;
+      }
+    });
+    //if (confirm("Есть ли у вас дополнительный источник заработка?")) {
+    // do {
+    //   itemIncome = prompt(
+    //     "Какой у вас есть дополнительный заработок?",
+    //     "Таксую"
+    //   );
+    // } while (empty(itemIncome));
+
+    //     do {
+    //       cashIncome = prompt("Сколько в месяц вы на этом зарабатываете?", 10000);
+    //     } while (!isNumber(cashIncome));
+    //     appData.income[itemIncome] = cashIncome;
+    //   }
+    //   for (let key in appData.income) {
+    //     appData.incomeMonth += +appData.income[key];
+    //   }
   },
   getAddExpenses: function () {
     let addExpenses = expensesName.value.split(", ");
