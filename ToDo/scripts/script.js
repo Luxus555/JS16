@@ -3,7 +3,8 @@
 const todoControl = document.querySelector(".todo-control"),
   headerInput = document.querySelector(".header-input"),
   todoList = document.querySelector(".todo-list"),
-  todoCompleted = document.querySelector(".todo-completed");
+  todoCompleted = document.querySelector(".todo-completed"),
+  todoRemove = document.querySelector(".todo-remove");
 
 const todoData = [];
 
@@ -41,12 +42,13 @@ const render = function () {
 todoControl.addEventListener("submit", function (event) {
   event.preventDefault();
 
+  todoRemove.addEventListener();
+
   const newTodo = {
     value: headerInput.value,
     completed: false,
   };
   todoData.push(newTodo);
-
   render();
 });
 
