@@ -4,6 +4,7 @@ const todoControl = document.querySelector(".todo-control"),
   headerInput = document.querySelector(".header-input"),
   todoList = document.querySelector(".todo-list"),
   todoCompleted = document.querySelector(".todo-completed"),
+  headerButton = document.querySelector(".header-button"),
   todoRemove = document.querySelector(".todo-remove");
 
 const todoData = [];
@@ -11,6 +12,7 @@ const todoData = [];
 const render = function () {
   todoList.textContent = "";
   todoCompleted.textContent = "";
+  headerInput.value = "";
 
   todoData.forEach(function (item) {
     const li = document.createElement("li");
@@ -42,13 +44,20 @@ const render = function () {
 todoControl.addEventListener("submit", function (event) {
   event.preventDefault();
 
-  todoRemove.addEventListener();
-
-  const newTodo = {
-    value: headerInput.value,
-    completed: false,
-  };
-  todoData.push(newTodo);
+  if (headerInput.value.trim() !== "") {
+    const newTodo = {
+      value: headerInput.value,
+      completed: false,
+    };
+    todoData.push(newTodo);
+    render();
+  } else {
+    alert("Чё сделать то?");
+  }
+});
+todoRemove.addEventListener("click", function () {
+  console.log(todoList);
+  // li.remove();
   render();
 });
 
