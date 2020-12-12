@@ -7,12 +7,18 @@ const todoControl = document.querySelector(".todo-control"),
   headerButton = document.querySelector(".header-button"),
   todoRemove = document.querySelector(".todo-remove");
 
-const todoData = [];
+let todoData = [];
+
+if (localStorage.getItem("todoData")) {
+  todoData = JSON.parse(localStorage.getItem("todoData"));
+}
 
 const render = function () {
   todoList.textContent = "";
   todoCompleted.textContent = "";
   headerInput.value = "";
+
+  localStorage.setItem("todoData", JSON.stringify(todoData));
 
   todoData.forEach(function (item) {
     const li = document.createElement("li");
@@ -38,6 +44,14 @@ const render = function () {
       item.completed = !item.completed;
       render();
     });
+    const btnRemove = li.querySelector(".todo-remove");
+
+    btnRemove.addEventListener("click", function (e) {
+      let index = todoData.indexOf(item);
+      todoData.splice(index, 1);
+      li.remove();
+      render();
+    });
   });
 };
 
@@ -55,10 +69,4 @@ todoControl.addEventListener("submit", function (event) {
     alert("Чё сделать то?");
   }
 });
-todoRemove.addEventListener("click", function () {
-  console.log(todoList);
-  // li.remove();
-  render();
-});
-
 render();
