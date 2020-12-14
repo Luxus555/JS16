@@ -69,7 +69,8 @@ let appData = {
     this.getBudget();
 
     this.showResult();
-    let inputData = document.querySelectorAll(".data input");
+    //querySelectorAll('.data input[type = text]') ищет все инпуты с типой text? тут немного знания верстки нужны, при этом он все другие инпуты не трогоет  значит твой type=renge будет не задизейблит
+    let inputData = document.querySelectorAll(".data input[type = text]");
     firstPlus.setAttribute("disabled", "true");
     secondPlus.setAttribute("disabled", "true");
     inputData.forEach((item) => item.setAttribute("disabled", "true"));
@@ -184,21 +185,38 @@ let appData = {
     return this.budgetMonth * range.value;
   },
   reset: function () {
-    this.getExpenses().value = "";
-    this.getIncome().value = "";
-    this.getExpensesMonth().value = "";
-    this.getAddExpenses().value = "";
-    this.getAddIncome().value = "";
-    this.getBudget().value = "";
+    const inputTextData = document.querySelectorAll(".data input[type = text]"),
+      resultInputAll = document.querySelectorAll(".result input[type = text]");
 
-    this.showResult().value = "";
-    let inputData = document.querySelectorAll(".data input");
+    inputTextData.forEach((elem) => {
+      elem.value = "";
+      elem.removeAttribute("disabled");
+      range.value = "0";
+      periodAmount.innerHTML = range.value;
+    });
+    resultInputAll.forEach((elem) => {
+      elem.value = "";
+    });
+    this.budget = 0;
+    this.income = {};
+    (this.addIncome = []), (this.Expenses = {});
+    this.addExpenses = [];
+    this.deposit = false;
+    this.depositSum = 0;
+    this.depositPercent = 0;
+    this.budgetDay = 0;
+    this.budgetMonth = 0;
+    this.expensesMonth = 0;
+    this.incomeMonth = 0;
+    let inputData = document.querySelectorAll(".data input[type = text]");
     firstPlus.setAttribute("disabled", "false");
     secondPlus.setAttribute("disabled", "false");
+    (cancel.style.display = "none"), (calculate.style.display = "inline");
     inputData.forEach((item) => {
       item.removeAtrribute("disabled").value = "";
-      (cancel.style.display = "inline"), (calculate.style.display = "none");
+      //(cancel.style.display = "none"), (calculate.style.display = "block");
     });
+    // (cancel.style.display = "none"), (calculate.style.display = "inline");
   },
 };
 
@@ -215,7 +233,10 @@ firstPlus.addEventListener("click", appData.addIncomeBlock);
 
 secondPlus.addEventListener("click", appData.addExpensesBlock);
 
-cancel.addEventListener("click", appData.reset());
+//cancel.addEventListener("click", appData.reset());
+cancel.addEventListener("click", () => {
+  appData.reset();
+});
 
 range.addEventListener("input", (event) => {
   event.preventDefault();
