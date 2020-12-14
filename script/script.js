@@ -19,6 +19,7 @@ function empty(str) {
 }
 
 let calculate = document.getElementById("start"),
+  cancel = document.getElementById("cancel"),
   buttonPlus = document.getElementsByTagName("button"),
   firstPlus = buttonPlus[0],
   secondPlus = buttonPlus[1],
@@ -42,8 +43,7 @@ let calculate = document.getElementById("start"),
   targetAmount = document.querySelector(".target-amount"),
   range = document.querySelector(".period-select"),
   periodAmount = document.querySelector(".period-amount"),
-  incomeItems = document.querySelectorAll(".income-items"),
-  inputData = document.querySelectorAll(".data input");
+  incomeItems = document.querySelectorAll(".income-items");
 
 let appData = {
   income: {},
@@ -69,7 +69,11 @@ let appData = {
     this.getBudget();
 
     this.showResult();
-    inputData.forEach((item) => item.setAttribute("disable", true));
+    let inputData = document.querySelectorAll(".data input");
+    firstPlus.setAttribute("disabled", "true");
+    secondPlus.setAttribute("disabled", "true");
+    inputData.forEach((item) => item.setAttribute("disabled", "true"));
+    (calculate.style.display = "none"), (cancel.style.display = "inline");
   },
   showResult: function () {
     monthIncome[0].value = this.budgetMonth;
@@ -179,6 +183,23 @@ let appData = {
   calcPeriod: function () {
     return this.budgetMonth * range.value;
   },
+  reset: function () {
+    this.getExpenses().value = "";
+    this.getIncome().value = "";
+    this.getExpensesMonth().value = "";
+    this.getAddExpenses().value = "";
+    this.getAddIncome().value = "";
+    this.getBudget().value = "";
+
+    this.showResult().value = "";
+    let inputData = document.querySelectorAll(".data input");
+    firstPlus.setAttribute("disabled", "false");
+    secondPlus.setAttribute("disabled", "false");
+    inputData.forEach((item) => {
+      item.removeAtrribute("disabled").value = "";
+      (cancel.style.display = "inline"), (calculate.style.display = "none");
+    });
+  },
 };
 
 calculate.addEventListener("click", (event) => {
@@ -193,6 +214,8 @@ calculate.addEventListener("click", (event) => {
 firstPlus.addEventListener("click", appData.addIncomeBlock);
 
 secondPlus.addEventListener("click", appData.addExpensesBlock);
+
+cancel.addEventListener("click", appData.reset());
 
 range.addEventListener("input", (event) => {
   event.preventDefault();
