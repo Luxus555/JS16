@@ -61,7 +61,7 @@ const AppData = function () {
   this.expensesMonth = 0;
 };
 
-AppData.prototype.start = function () {
+AppData.start = function () {
   this.budget = +incomeSum.value;
   this.getExpenses();
   this.getIncome();
@@ -71,13 +71,15 @@ AppData.prototype.start = function () {
   this.getBudget();
 
   this.showResult();
+  //querySelectorAll('.data input[type = text]') ищет все инпуты с типой text? тут немного знания верстки нужны, при этом он все другие инпуты не трогоет  значит твой type=renge будет не задизейблит
   let inputData = document.querySelectorAll(".data input[type = text]");
   firstPlus.setAttribute("disabled", "true");
   secondPlus.setAttribute("disabled", "true");
   inputData.forEach((item) => item.setAttribute("disabled", "true"));
-  (calculate.style.display = "none"), (cancel.style.display = "inline");
+  calculate.style.display = "none";
+  cancel.style.display = "block";
 };
-AppData.prototype.showResult = function () {
+AppData.showResult = function () {
   monthIncome[0].value = this.budgetMonth;
   dayBudget[0].value = this.budgetDay;
   monthExpenses[0].value = this.expensesMonth;
@@ -128,8 +130,8 @@ AppData.prototype.getIncome = function () {
       _this.income[itemIncome] = cashIncome;
     }
 
-    for (let key in this.income) {
-      this.incomeMonth += +this.income[key];
+    for (let key in _this.income) {
+      _this.incomeMonth += +_this.income[key];
     }
   });
 };
@@ -161,7 +163,6 @@ AppData.prototype.getBudget = function () {
   this.budgetMonth = this.budget + (this.incomeMonth - this.expensesMonth);
   this.budgetDay = Math.floor(this.budgetMonth / 30);
 };
-
 AppData.prototype.getTargetMonth = function () {
   return Math.ceil(targetAmount.value / this.budgetMonth);
 };
@@ -204,7 +205,8 @@ AppData.prototype.reset = function () {
   });
   this.budget = 0;
   this.income = {};
-  (this.addIncome = []), (this.Expenses = {});
+  this.addIncome = [];
+  this.Expenses = {};
   this.addExpenses = [];
   this.deposit = false;
   this.depositSum = 0;
@@ -216,46 +218,46 @@ AppData.prototype.reset = function () {
   let inputData = document.querySelectorAll(".data input[type = text]");
   firstPlus.setAttribute("disabled", "false");
   secondPlus.setAttribute("disabled", "false");
-  (cancel.style.display = "none"), (calculate.style.display = "inline");
+  cancel.style.display = "none";
+  calculate.style.display = "inline";
   inputData.forEach((item) => {
-    item.removeAtrribute("disabled").value = "";
+    item.removeAtrribute("disabled", "true");
   });
 };
-
 AppData.prototype.eventListeners = function () {
-  firstPlus.addEventListener("click", AppData.addIncomeBlock);
-  secondPlus.addEventListener("click", AppData.addExpensesBlock);
-  cancel.addEventListener("click", () => {
-    AppData.reset();
+  calculate.addEventListener("click", (event) => {
+    event.preventDefault();
+    if (incomeSum.value === "") {
+      alert('Поле "Месячный доход" должно быть заполнено!');
+    } else {
+      appData.start();
+    }
   });
+
+  firstPlus.addEventListener("click", this.addIncomeBlock);
+
+  secondPlus.addEventListener("click", this.addExpensesBlock);
+
+  cancel.addEventListener("click", () => {
+    appData.reset();
+  });
+
   range.addEventListener("input", (event) => {
     event.preventDefault();
     this.period = range.value;
     periodAmount.textContent = this.period;
   });
-  AppData.eventListeners();
+
+  this.getTargetMonth();
+
+  for (let key in this) {
+    console.log(
+      "Наша программа включает в себя данные: " + key + " - " + this[key]
+    );
+  }
+  this.getInfoDeposit();
 };
 
 const appData = new AppData();
 
 console.log(appData);
-
-// firstPlus.addEventListener("click", appData.addIncomeBlock);
-// secondPlus.addEventListener("click", appData.addExpensesBlock);
-// cancel.addEventListener("click", () => {
-//   appData.reset();
-// });
-// range.addEventListener("input", (event) => {
-//   event.preventDefault();
-//   this.period = range.value;
-//   periodAmount.textContent = this.period;
-// });
-
-// appData.getTargetMonth();
-
-// for (let key in appData) {
-//   console.log(
-//     "Наша программа включает в себя данные: " + key + " - " + appData[key]
-//   );
-// }
-// appData.getInfoDeposit();

@@ -213,10 +213,8 @@ let appData = {
     secondPlus.setAttribute("disabled", "false");
     (cancel.style.display = "none"), (calculate.style.display = "inline");
     inputData.forEach((item) => {
-      item.removeAtrribute("disabled").value = "";
-      //(cancel.style.display = "none"), (calculate.style.display = "block");
+      item.removeAtrribute("disabled", "true");
     });
-    // (cancel.style.display = "none"), (calculate.style.display = "inline");
   },
 };
 
