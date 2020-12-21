@@ -230,7 +230,7 @@ AppData.prototype.eventListeners = function () {
     if (incomeSum.value === "") {
       alert('Поле "Месячный доход" должно быть заполнено!');
     } else {
-      appData.start();
+      this.start();
     }
   });
 
@@ -261,3 +261,5 @@ AppData.prototype.eventListeners = function () {
 const appData = new AppData();
 
 console.log(appData);
+
+AppData.eventListeners();
