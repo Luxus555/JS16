@@ -61,7 +61,7 @@ const AppData = function () {
   this.expensesMonth = 0;
 };
 
-AppData.start = function () {
+AppData.prototype.start = function () {
   this.budget = +incomeSum.value;
   this.getExpenses();
   this.getIncome();
@@ -79,7 +79,7 @@ AppData.start = function () {
   calculate.style.display = "none";
   cancel.style.display = "block";
 };
-AppData.showResult = function () {
+AppData.prototype.showResult = function () {
   monthIncome[0].value = this.budgetMonth;
   dayBudget[0].value = this.budgetDay;
   monthExpenses[0].value = this.expensesMonth;
@@ -225,18 +225,19 @@ AppData.prototype.reset = function () {
   });
 };
 AppData.prototype.eventListeners = function () {
+  const _this = this;
   calculate.addEventListener("click", (event) => {
     event.preventDefault();
     if (incomeSum.value === "") {
       alert('Поле "Месячный доход" должно быть заполнено!');
     } else {
-      this.start();
+      _this.start();
     }
   });
 
-  firstPlus.addEventListener("click", this.addIncomeBlock);
+  firstPlus.addEventListener("click", _this.addIncomeBlock);
 
-  secondPlus.addEventListener("click", this.addExpensesBlock);
+  secondPlus.addEventListener("click", _this.addExpensesBlock);
 
   cancel.addEventListener("click", () => {
     appData.reset();
@@ -244,15 +245,15 @@ AppData.prototype.eventListeners = function () {
 
   range.addEventListener("input", (event) => {
     event.preventDefault();
-    this.period = range.value;
-    periodAmount.textContent = this.period;
+    _this.period = range.value;
+    periodAmount.textContent = _this.period;
   });
 
   this.getTargetMonth();
 
-  for (let key in this) {
+  for (let key in _this) {
     console.log(
-      "Наша программа включает в себя данные: " + key + " - " + this[key]
+      "Наша программа включает в себя данные: " + key + " - " + _this[key]
     );
   }
   this.getInfoDeposit();
@@ -262,4 +263,4 @@ const appData = new AppData();
 
 console.log(appData);
 
-AppData.eventListeners();
+appData.eventListeners();
